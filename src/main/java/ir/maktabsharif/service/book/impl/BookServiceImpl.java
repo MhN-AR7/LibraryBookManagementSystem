@@ -9,6 +9,7 @@ import ir.maktabsharif.repository.book.impl.BookRepoImpl;
 import ir.maktabsharif.service.book.BookService;
 import ir.maktabsharif.util.Rule;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class BookServiceImpl implements BookService {
@@ -99,6 +100,12 @@ public class BookServiceImpl implements BookService {
                 book.getPublishedYear() <= 0 || book.getPublishedYear() > LocalDate.now().getYear(),
                 InvalidDataException::new,
                 "Invalid Book's Published Year!"
+        );
+
+        Rule.check(
+                book.getPrice().compareTo(BigDecimal.ZERO) < 0,
+                InvalidDataException::new,
+                "Price Cannot be Negative!"
         );
     }
 }

@@ -4,6 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Entity
 @Table(name = "books")
 public class Book extends BaseModel<Long> {
@@ -13,12 +16,14 @@ public class Book extends BaseModel<Long> {
     private String isbn;
     @Column(name = "published_year")
     private int publishedYear;
+    private BigDecimal price;
 
-    public Book(String title, String author, String isbn, int publishedYear) {
+    public Book(String title, String author, String isbn, int publishedYear, BigDecimal price) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.publishedYear = publishedYear;
+        setPrice(price);
     }
 
     public Book() {
@@ -56,11 +61,19 @@ public class Book extends BaseModel<Long> {
         this.publishedYear = publishedYear;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
+    }
+
     @Override
     public String toString() {
         return String.format("""
                 ID: %d | Title: %s | Author: %s
-                ISBN: %s | Published Year: %d
-                """, this.getId(), title, author, isbn, publishedYear);
+                ISBN: %s | Published Year: %d | Price: %.2f
+                """, this.getId(), title, author, isbn, publishedYear, price);
     }
 }
