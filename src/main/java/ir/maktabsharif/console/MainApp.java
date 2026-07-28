@@ -13,6 +13,7 @@ import ir.maktabsharif.service.report.ReportService;
 import ir.maktabsharif.service.report.impl.ReportServiceImpl;
 import ir.maktabsharif.threads.Consumer;
 import ir.maktabsharif.threads.Producer;
+import ir.maktabsharif.threads.ThreadPool;
 import ir.maktabsharif.threads.Warehouse;
 
 import java.math.BigDecimal;
@@ -271,6 +272,8 @@ public class MainApp {
                             }
                             break;
                         case 2:
+                            System.out.println("\n-------- Producer-Consumer --------\n");
+
                             try {
                                 Warehouse warehouse = new Warehouse();
 
@@ -289,7 +292,19 @@ public class MainApp {
                                 throw new ThreadException(e.getMessage());
                             }
                             break;
+                        case 3:
+                            System.out.println("\n-------- ExecutorService --------\n");
+
+                            ThreadPool.submitTasks();
+                            break;
                     }
+                    break;
+                case 0:
+                    System.out.println("Exiting Program...");
+                    input.close();
+                    return;
+                default:
+                    System.out.println("Invalid Choice!\nTry Again.");
             }
         }
     }
