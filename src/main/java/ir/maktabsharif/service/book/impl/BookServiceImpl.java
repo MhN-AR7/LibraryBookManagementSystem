@@ -107,5 +107,11 @@ public class BookServiceImpl implements BookService {
                 InvalidDataException::new,
                 "Price Cannot be Negative!"
         );
+
+        Rule.check(
+                book.getAvailableCopies() < 0,
+                InvalidDataException::new,
+                "Available Copies Cannot be Negative!"
+        );
     }
 }

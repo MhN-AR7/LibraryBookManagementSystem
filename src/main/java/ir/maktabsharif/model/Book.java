@@ -17,13 +17,15 @@ public class Book extends BaseModel<Long> {
     @Column(name = "published_year")
     private int publishedYear;
     private BigDecimal price;
+    private int availableCopies;
 
-    public Book(String title, String author, String isbn, int publishedYear, BigDecimal price) {
+    public Book(String title, String author, String isbn, int publishedYear, BigDecimal price, int availableCopies) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.publishedYear = publishedYear;
         setPrice(price);
+        this.availableCopies = availableCopies;
     }
 
     public Book() {
@@ -69,11 +71,19 @@ public class Book extends BaseModel<Long> {
         this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
     @Override
     public String toString() {
         return String.format("""
-                ID: %d | Title: %s | Author: %s
-                ISBN: %s | Published Year: %d | Price: %.2f
-                """, this.getId(), title, author, isbn, publishedYear, price);
+                ID: %d | Title: %s | Author: %s | ISBN: %s
+                Published Year: %d | Price: %.2f | Available Copies: %d
+                """, this.getId(), title, author, isbn, publishedYear, price, availableCopies);
     }
 }

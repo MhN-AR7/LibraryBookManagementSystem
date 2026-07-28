@@ -55,6 +55,7 @@ public class BookRepoImpl implements BookRepo {
             existingBook.setIsbn(book.getIsbn());
             existingBook.setPublishedYear(book.getPublishedYear());
             existingBook.setPrice(book.getPrice());
+            existingBook.setAvailableCopies(book.getAvailableCopies());
             tx.commit();
             return true;
         }
