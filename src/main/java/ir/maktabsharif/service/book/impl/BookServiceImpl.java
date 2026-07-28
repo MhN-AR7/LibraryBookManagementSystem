@@ -3,6 +3,7 @@ package ir.maktabsharif.service.book.impl;
 import ir.maktabsharif.exception.BookNotFoundException;
 import ir.maktabsharif.exception.BusinessException;
 import ir.maktabsharif.exception.InvalidDataException;
+import ir.maktabsharif.exception.ThreadException;
 import ir.maktabsharif.model.Book;
 import ir.maktabsharif.repository.book.BookRepo;
 import ir.maktabsharif.repository.book.impl.BookRepoImpl;
@@ -113,5 +114,26 @@ public class BookServiceImpl implements BookService {
                 InvalidDataException::new,
                 "Available Copies Cannot be Negative!"
         );
+    }
+
+    @Override
+    public void borrow(Long id) throws BookNotFoundException {
+        Book book = bookRepo.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("Book Not Found!"));
+
+        synchronized (book) {
+            try {
+                if (book.getAvailableCopies() > 0) {
+                    Thread.sleep(3000);
+                    book.setAvailableCopies(book.getAvailableCopies()-1);
+                    bookRepo.update(book);
+                    System.out.println(Thread.currentThread().getName() + "Borrowed Book: \n" + book);
+                }
+                else System.out.println("No Available Copies!");
+            }
+            catch (InterruptedException e) {
+                throw new ThreadException(e.getMessage());
+            }
+        }
     }
 }
