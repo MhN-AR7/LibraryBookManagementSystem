@@ -11,6 +11,9 @@ import ir.maktabsharif.service.member.MemberService;
 import ir.maktabsharif.service.member.impl.MemberServiceImpl;
 import ir.maktabsharif.service.report.ReportService;
 import ir.maktabsharif.service.report.impl.ReportServiceImpl;
+import ir.maktabsharif.threads.Consumer;
+import ir.maktabsharif.threads.Producer;
+import ir.maktabsharif.threads.Warehouse;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -262,6 +265,25 @@ public class MainApp {
                             }
                             catch (BusinessException e) {
                                 System.err.println(e.getMessage());
+                            }
+                            catch (InterruptedException e) {
+                                throw new ThreadException(e.getMessage());
+                            }
+                            break;
+                        case 2:
+                            try {
+                                Warehouse warehouse = new Warehouse();
+
+                                Thread producer = new Thread(new Producer(warehouse));
+                                Thread consumer = new Thread(new Consumer(warehouse));
+
+                                producer.start();
+                                consumer.start();
+
+                                producer.join();
+                                consumer.join();
+
+                                System.out.println("Producer-Consumer Finished!");
                             }
                             catch (InterruptedException e) {
                                 throw new ThreadException(e.getMessage());
