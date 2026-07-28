@@ -7,8 +7,11 @@ import ir.maktabsharif.service.book.BookService;
 import ir.maktabsharif.service.book.impl.BookServiceImpl;
 import ir.maktabsharif.service.member.MemberService;
 import ir.maktabsharif.service.member.impl.MemberServiceImpl;
+import ir.maktabsharif.service.report.ReportService;
+import ir.maktabsharif.service.report.impl.ReportServiceImpl;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainApp {
@@ -17,6 +20,7 @@ public class MainApp {
 
         BookService bookService = new BookServiceImpl();
         MemberService memberService = new MemberServiceImpl();
+        ReportService reportService = new ReportServiceImpl();
 
         while (true) {
             System.out.println("""
@@ -201,6 +205,19 @@ public class MainApp {
                     catch (BusinessException e) {
                         System.err.println(e.getMessage());
                     }
+                    break;
+                case 9:
+                    System.out.println("\n-------- Reports --------\n");
+                    System.out.println("\n---- All Books ----");
+                    List<Book> allBooks = reportService.getAllBooks();
+                    if (allBooks.isEmpty()) System.out.println("Book List is  Empty!");
+                    else allBooks.forEach(System.out::println);
+                    System.out.println("\nTotal Number of Books: " + reportService.getBookCount());
+                    System.out.println("\nAverage Book Price: " + reportService.getAverageBookPrice());
+                    System.out.println("\n---- Most Expensive Books ----");
+                    List<Book> mostExpensiveBooks = reportService.getMostExpensiveBooks();
+                    if (mostExpensiveBooks.isEmpty()) System.out.println("Book List is Empty!");
+                    else mostExpensiveBooks.forEach(System.out::println);
                     break;
             }
         }
