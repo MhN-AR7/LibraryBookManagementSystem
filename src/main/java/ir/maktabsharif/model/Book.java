@@ -17,6 +17,7 @@ public class Book extends BaseModel<Long> {
     @Column(name = "published_year")
     private int publishedYear;
     private BigDecimal price;
+    @Column(name = "available_copies")
     private int availableCopies;
 
     public Book(String title, String author, String isbn, int publishedYear, BigDecimal price, int availableCopies) {

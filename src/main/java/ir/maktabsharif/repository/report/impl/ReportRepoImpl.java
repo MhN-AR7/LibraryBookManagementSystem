@@ -26,14 +26,14 @@ public class ReportRepoImpl implements ReportRepo {
 
             while (rs.next()) {
                 Book book = new Book(
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getInt(5),
-                        rs.getBigDecimal(6),
-                        rs.getInt(7)
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("isbn"),
+                        rs.getInt("published_year"),
+                        rs.getBigDecimal("price"),
+                        rs.getInt("available_copies")
                 );
-                book.setId(rs.getLong(1));
+                book.setId(rs.getLong("id"));
 
                 books.add(book);
             }
