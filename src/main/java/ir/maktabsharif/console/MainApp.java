@@ -293,9 +293,17 @@ public class MainApp {
                             break;
                         case 3:
                             System.out.println("\n-------- ExecutorService --------\n");
+                            ThreadPool threadPool = new ThreadPool();
 
-                            ThreadPool.submitTasks();
+                            threadPool.submitTasks();
+                            try {
+                                Thread.sleep(10000);
+                            } catch (InterruptedException e) {
+                                throw new ThreadException(e.getMessage());
+                            }
                             break;
+                        default:
+                            System.out.println("Invalid Choice!");
                     }
                     break;
                 case 0:
