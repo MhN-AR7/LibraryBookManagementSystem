@@ -1,6 +1,8 @@
 package ir.maktabsharif.console;
 
+import ir.maktabsharif.exception.BookNotFoundException;
 import ir.maktabsharif.exception.BusinessException;
+import ir.maktabsharif.exception.ThreadException;
 import ir.maktabsharif.model.Book;
 import ir.maktabsharif.model.Member;
 import ir.maktabsharif.service.book.BookService;
@@ -219,6 +221,53 @@ public class MainApp {
                     if (mostExpensiveBooks.isEmpty()) System.out.println("Book List is Empty!");
                     else mostExpensiveBooks.forEach(System.out::println);
                     break;
+                case 10:
+                    System.out.println("""
+                            -------- Thread Exercises --------
+                            1. Race Condition
+                            2. Producer–Consumer
+                            3. ExecutorService
+                            """);
+                    int threadChoice = input.nextInt();
+                    input.nextLine();
+
+                    switch (threadChoice) {
+                        case 1:
+                            try {
+                                System.out.println("Enter Book's ID to Borrow for Race Condition: ");
+                                Long id = input.nextLong();
+                                input.nextLine();
+                                Thread threadOne = new Thread(() -> {
+                                    try {
+                                        bookService.borrow(id);
+                                    } catch (BusinessException e) {
+                                        System.err.println(e.getMessage());
+                                    }
+                                });
+                                Thread threadTwo = new Thread(() -> {
+                                    try {
+                                        bookService.borrow(id);
+                                    } catch (BusinessException e) {
+                                        System.err.println(e.getMessage());
+                                    }
+                                });
+
+                                threadOne.start();
+                                threadTwo.start();
+
+                                threadOne.join();
+                                threadTwo.join();
+
+                                System.out.println("Book After Race Condition:\n" + bookService.getById(id));
+                            }
+                            catch (BusinessException e) {
+                                System.err.println(e.getMessage());
+                            }
+                            catch (InterruptedException e) {
+                                throw new ThreadException(e.getMessage());
+                            }
+                            break;
+                    }
             }
         }
     }
