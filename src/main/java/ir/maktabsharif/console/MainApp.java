@@ -14,6 +14,7 @@ import ir.maktabsharif.threads.Consumer;
 import ir.maktabsharif.threads.Producer;
 import ir.maktabsharif.threads.ThreadPool;
 import ir.maktabsharif.threads.Warehouse;
+import ir.maktabsharif.util.JpaConfig;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -309,6 +310,7 @@ public class MainApp {
                 case 0:
                     System.out.println("Exiting Program...");
                     input.close();
+                    JpaConfig.closeEMF();
                     return;
                 default:
                     System.out.println("Invalid Choice!\nTry Again.");
