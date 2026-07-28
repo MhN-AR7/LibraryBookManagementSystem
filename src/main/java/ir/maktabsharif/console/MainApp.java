@@ -1,6 +1,5 @@
 package ir.maktabsharif.console;
 
-import ir.maktabsharif.exception.BookNotFoundException;
 import ir.maktabsharif.exception.BusinessException;
 import ir.maktabsharif.exception.ThreadException;
 import ir.maktabsharif.model.Book;
